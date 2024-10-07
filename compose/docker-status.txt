@@ -1,0 +1,10 @@
+"=== Docker Containers ===" 
+CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                    NAMES
+3549e42df098   JimiMN/service1:latest   "flask run --debug"      18 seconds ago   Up 18 seconds   0.0.0.0:8199->5000/tcp   compose-service1-1
+12d686414f49   JimiMN/service2:latest   "docker-entrypoint.s…"   19 seconds ago   Up 18 seconds   0.0.0.0:3000->3000/tcp   compose-service2-1
+"\n=== Docker Networks ===" 
+NETWORK ID     NAME              DRIVER    SCOPE
+4fb3f57def8a   bridge            bridge    local
+2d7724a31ef7   compose_default   bridge    local
+131b5e7b3dfb   host              host      local
+fadf506d8125   none              null      local

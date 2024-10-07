@@ -1,0 +1,8 @@
+I used chatGPT as my LLM.
+Motivation to use LLM, was because of lack of time since leaving too little time to do the exercise, 
+but still wanted to do it for learning purposes.
+LLM helped with getting the grasp of networking and correcting some small mistakes I did in Dockerfiles/compose.yaml
+LLM frequently tried using functions that gave errors in for example getting the IP, so in those cases using google to find correct
+functions was way easier.
+LLM was not able to provide 100% efficient code, so it mostly just showed me towards a path that could solve my problems,
+but in the end I ususally needed to fix the errors myself.

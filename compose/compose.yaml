@@ -1,7 +1,16 @@
 services:
-  web:
-    build: .
+  service1:
+    build:
+      context: ./service1
+    image: JimiMN/service1:latest
     ports:
-      - "8000:5000"
-  redis:
-    image: "redis:alpine"
+      - "8199:5000"
+    depends_on:
+      - service2
+
+  service2:
+    build:
+      context: ./service2
+    image: JimiMN/service2:latest
+    ports:
+      - "3000:3000"

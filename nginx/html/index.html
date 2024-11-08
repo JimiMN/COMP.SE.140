@@ -1,0 +1,21 @@
+<html>
+  <body>
+    <button id="request">REQUEST</button>
+    <button id="stop">STOP</button>
+    <textarea id="response"></textarea>
+
+    <script>
+      document.getElementById("request").onclick = function () {
+        fetch('/request')
+          .then(response => response.text())
+          .then(data => document.getElementById("response").value = data)
+          .catch(error => console.error('Error:', error));
+      };
+
+      document.getElementById("stop").onclick = function () {
+        fetch('/stop', { method: 'POST' })
+          .then(response => window.close());
+      };
+    </script>
+  </body>
+</html>

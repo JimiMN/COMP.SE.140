@@ -1,10 +1,15 @@
-"=== Docker Containers ===" 
-CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                    NAMES
-3549e42df098   JimiMN/service1:latest   "flask run --debug"      18 seconds ago   Up 18 seconds   0.0.0.0:8199->5000/tcp   compose-service1-1
-12d686414f49   JimiMN/service2:latest   "docker-entrypoint.s…"   19 seconds ago   Up 18 seconds   0.0.0.0:3000->3000/tcp   compose-service2-1
-"\n=== Docker Networks ===" 
-NETWORK ID     NAME              DRIVER    SCOPE
-4fb3f57def8a   bridge            bridge    local
-2d7724a31ef7   compose_default   bridge    local
-131b5e7b3dfb   host              host      local
-fadf506d8125   none              null      local
+docker container ls
+CONTAINER ID   IMAGE                    COMMAND                  CREATED              STATUS              PORTS                    NAMES
+898fc71e98fe   nginx:latest             "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:8198->80/tcp     compse140-nginx-1
+da25f4951e99   JimiMN/service1:latest   "python app.py"          About a minute ago   Up About a minute                            compse140-service1-1-1
+1c14735a47ac   JimiMN/service1:latest   "python app.py"          About a minute ago   Up About a minute                            compse140-service1-3-1
+b9c1592cb269   JimiMN/service1:latest   "python app.py"          About a minute ago   Up About a minute                            compse140-service1-2-1
+e0f6d275428a   JimiMN/service2:latest   "python app.py"          About a minute ago   Up About a minute   0.0.0.0:3000->3000/tcp   compse140-service2-1
+docker network ls
+NETWORK ID     NAME                  DRIVER    SCOPE
+b31882d8217d   bridge                bridge    local
+2d7724a31ef7   compose_default       bridge    local
+ce34b1c991cf   compse140_default     bridge    local
+bbf5306a8341   compse140_mynetwork   bridge    local
+131b5e7b3dfb   host                  host      local
+fadf506d8125   none                  null      local

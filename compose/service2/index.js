@@ -9,32 +9,31 @@ function getIpAddress() {
     const interfaces = os.networkInterfaces();
     for (let interfaceName in interfaces) {
         for (let iface of interfaces[interfaceName]) {
-            // Ignore internal (localhost) and IPv6 addresses
             if (iface.family === 'IPv4' && !iface.internal) {
-                return iface.address; // Return the first found external IPv4 address
+                return iface.address;
             }
         }
     }
-    return 'Not Found'; // If no external IP found
+    return 'Not Found';
 }
 
 // Endpoint to get system information
 app.get('/system-info', (req, res) => {
-    // Get running processes
+    // Processes
     const processes = execSync('ps -eo pid,comm').toString().split('\n').slice(1).map(line => {
         const parts = line.trim().split(/\s+/);
         return { pid: parts[0], name: parts[1] };
-    }).filter(proc => proc.name); // Filter out empty lines
+    }).filter(proc => proc.name);
 
-    // Get IP address using the new function
+    //IP
     const ip = getIpAddress();
 
-    // Get available disk space
+    //Diskspace
     const diskUsage = execSync('df -h /').toString().split('\n')[1].split(/\s+/);
     const availableSpace = diskUsage[3]; // The available space in the 4th column
 
-    // Get uptime
-    const uptime = os.uptime(); // Uptime in seconds
+    //Time since boot
+    const uptime = os.uptime();
 
     const systemInfo = {
         "IP Address": ip,

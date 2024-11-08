@@ -1,4 +1,0 @@
-Containers of course need network from the host, but they run on separate virtual IPs. 
-Containers share file system with the host, which is ususally mounted somewhere. 
-Containers also need the host systems processing power to even run.
-Also the boot time in this task is my computers boot time if I'm not mistaken.

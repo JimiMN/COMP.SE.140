@@ -19,14 +19,15 @@ test:
   stage: test
   before_script:
     - apk add --no-cache python3 py3-pip  # Ensure Python is installed
-    - pip install -r tests/requirements.txt
   script:
     - docker-compose up -d  # Start services
     - sleep 5  # Ensure services are up
-    - pytest tests/  # Run tests
+    - python3 -m venv venv  # Create virtual environment
+    - source venv/bin/activate  # Activate virtual environment
+    - pip install -r requirements.txt  # Install dependencies for the tests
+    - pytest tests/  # Run the tests
   after_script:
-    - docker-compose down # Shutdown
-
+    - docker-compose down  # Shutdown
 
 build:
   stage: build

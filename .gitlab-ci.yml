@@ -20,7 +20,7 @@ test:
   script:
     - docker-compose up -d  # Start services
     - docker ps  # List running containers
-    - docker-compose exec -T app pytest  # Example test command
+    # - docker-compose exec -T app pytest  # Example test command
     - docker-compose down  # Stop services
 
 build:

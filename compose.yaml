@@ -1,3 +1,6 @@
+networks:
+  my_network:
+
 services:
   service1-1:
     build:

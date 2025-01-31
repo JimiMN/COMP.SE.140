@@ -23,11 +23,12 @@ build:
     # Build Docker image using Dockerfile
     - docker-compose build
 
+# Test Stage
+test:
   stage: test
   before_script:
-  - apk add --no-cache python3 py3-pip  # Ensure Python is installed
+    - apk add --no-cache python3 py3-pip  # Ensure Python is installed
   script:
-
     # Advanced network debugging
     - apk add --no-cache bind-tools net-tools
 
@@ -64,6 +65,8 @@ build:
   after_script:
     - docker-compose down
 
+# Deploy Stage
+deploy:
   stage: deploy
   script:
     - docker-compose down --remove-orphans

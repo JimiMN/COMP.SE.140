@@ -1,8 +1,6 @@
 networks:
   default:
-    external:
-      name: compse140_my_network  # Ensure it uses the existing network
-
+    driver: bridge  # You can choose the driver based on your needs
 
 services:
   service1-1:

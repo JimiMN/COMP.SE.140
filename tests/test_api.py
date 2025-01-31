@@ -1,6 +1,7 @@
 import requests
 
-BASE_URL = "api-gateway:8197"
+BASE_URL = "http://localhost:8197"  # Replace with your service port
+
 
 def test_get_state():
     response = requests.get(f"{BASE_URL}/state")

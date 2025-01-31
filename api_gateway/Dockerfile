@@ -4,7 +4,10 @@ FROM python:3.10-alpine
 WORKDIR /app
 
 # Install necessary dependencies for building packages
-RUN apk add --no-cache gcc musl-dev linux-headers libffi-dev openssl-dev python3-dev
+RUN apk add --no-cache gcc musl-dev
+RUN apk add --no-cache linux-headers
+RUN apk add --no-cache libffi-dev openssl-dev
+RUN apk add --no-cache python3-dev
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt /app/

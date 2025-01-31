@@ -1,11 +1,11 @@
-image: docker:latest  # Use Docker as the base image
-
+image: docker:latest
 services:
-  - docker:dind  # Start a Docker-in-Docker service
+  - docker:dind
 
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
+  DOCKER_NETWORK: compse140_my_network  # Explicitly define network
 
 stages:
   - test
@@ -13,29 +13,27 @@ stages:
   - deploy
 
 before_script:
-  - apk add --no-cache docker-compose  # Install docker-compose
+  - apk add --no-cache docker-compose python3 py3-pip
 
 test:
   stage: test
-  before_script:
-    - apk add --no-cache python3 py3-pip  # Ensure Python is installed
-  script:
-    - docker-compose up -d  # Start services
-    - sleep 5  # Ensure services are up
-    - python3 -m venv venv  # Create virtual environment
-    - source venv/bin/activate  # Activate virtual environment
-    - pip install -r tests/requirements.txt  # Install dependencies for the tests
-    - pytest tests/ --cache-clear # Run the tests
-  after_script:
-    - docker-compose down  # Shutdown
-
-build:
-  stage: build
-  script:
-    - docker-compose build
-
-deploy:
-  stage: deploy
   script:
     - docker-compose up -d
-
+    - sleep 15  # Extended initialization time
+    
+    # Detailed network and service diagnostics
+    - docker network ls
+    - docker-compose ps
+    - docker network inspect compse140_my_network
+    
+    - python3 -m venv venv
+    - source venv/bin/activate
+    - pip install -r tests/requirements.txt pytest requests
+    
+    # Enhanced test running with network debugging
+    - |
+      PYTHONPATH=. pytest tests/ --cache-clear -v \
+        --log-cli-level=DEBUG \
+        --capture=no
+  after_script:
+    - docker-compose down

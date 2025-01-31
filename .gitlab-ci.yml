@@ -16,6 +16,8 @@ stages:
 
 test:
   stage: test
+  before_script:
+  - apk add --no-cache python3 py3-pip  # Ensure Python is installed
   script:
     # Advanced network debugging
     - apk add --no-cache bind-tools net-tools

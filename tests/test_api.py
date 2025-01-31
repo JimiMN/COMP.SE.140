@@ -79,9 +79,15 @@ def test_get_run_log():
 
 def test_put_shutdown_state():
     headers = {"Content-Type": "text/plain"}
+    
+    # Attempt to put the system in SHUTDOWN state
     response = requests.put(f"{BASE_URL}/state", data="SHUTDOWN", headers=headers)
     assert response.status_code == 200
 
     # Test system behavior when SHUTDOWN
-    response = requests.get(f"{BASE_URL}/request")
-    assert response.status_code != 200
+    try:
+        response = requests.get(f"{BASE_URL}/request")
+        assert response.status_code != 200
+    except ConnectionError:
+        # If there's a connection error, it means the system is in SHUTDOWN, which is acceptable.
+        pass

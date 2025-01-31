@@ -1,7 +1,2 @@
 requests
 pytest
-socket
-requests
-logging
-ipaddress
-os

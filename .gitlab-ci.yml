@@ -12,9 +12,17 @@ variables:
   DOCKER_TLS_CERTDIR: ""
 
 stages:
+  - build
   - test
+  - deploy
 
-test:
+# Build Stage
+build:
+  stage: build
+  script:
+    # Build Docker image using Dockerfile
+    - docker-compose build
+
   stage: test
   before_script:
   - apk add --no-cache python3 py3-pip  # Ensure Python is installed
@@ -36,3 +44,8 @@ test:
   
   after_script:
     - docker-compose down
+
+  stage: deploy
+  script:
+    - docker-compose down --remove-orphans
+    - docker-compose up -d

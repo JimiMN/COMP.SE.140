@@ -30,6 +30,12 @@ build:
     # Docker network creation with IP-based communication
     - docker network create compse140_my_network || true
     
+    # Use IP-based Docker commands
+    - docker -H tcp://127.0.0.1:2375 network ls
+    
+    # Verbose Docker Compose operations
+    - docker-compose config
+
     # Force network recreation
     - docker-compose up -d --force-recreate
     

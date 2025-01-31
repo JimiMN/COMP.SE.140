@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://host.docker.internal:8197"
+BASE_URL = "api-gateway:8197"
 
 def test_get_state():
     response = requests.get(f"{BASE_URL}/state")

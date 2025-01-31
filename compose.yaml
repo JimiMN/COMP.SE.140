@@ -1,5 +1,6 @@
 networks:
-  my_network:
+  compse140_my_network:
+    driver: bridge
 
 services:
   service1-1:
@@ -9,7 +10,7 @@ services:
     depends_on:
       - service2
     networks:
-      - my_network
+      - compse140_my_network
 
   service1-2:
     build:
@@ -18,7 +19,7 @@ services:
     depends_on:
       - service2
     networks:
-      - my_network
+      - compse140_my_network
 
   service1-3:
     build:
@@ -27,7 +28,7 @@ services:
     depends_on:
       - service2
     networks:
-      - my_network
+      - compse140_my_network
 
   service2:
     build:
@@ -36,7 +37,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - my_network
+      - compse140_my_network
 
   nginx:
     image: nginx:latest
@@ -51,7 +52,7 @@ services:
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
       - ./nginx/html:/usr/share/nginx/html
     networks:
-      - my_network
+      - compse140_my_network
  
   api-gateway:
     build:
@@ -67,4 +68,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - my_network
+      - compse140_my_network
+
+  test-runner:
+    image: python:3.12
+    volumes:
+      - .:/app
+    working_dir: /app
+    networks:
+      - compse140_my_network
+    depends_on:
+      - api-gateway
+    command: python3 -m pytest tests/ --cache-clear

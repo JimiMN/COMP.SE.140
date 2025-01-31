@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:8197"  # Adjust this to your local URL if needed
+BASE_URL = "http://host.docker.internal:8197"
 
 def test_get_state():
     response = requests.get(f"{BASE_URL}/state")

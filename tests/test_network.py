@@ -1,49 +1,35 @@
 import socket
 import requests
 import logging
-import os
 import ipaddress
+import os
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-def validate_ip(ip_str):
-    try:
-        ipaddress.ip_address(ip_str)
-        return True
-    except ValueError:
-        return False
-
-def test_comprehensive_network():
-    # Hostname resolution strategies
-    hostnames = [
-        'dockerhost', 
-        'localhost', 
-        'api-gateway', 
-        '127.0.0.1'
-    ]
-    
-    # Resolve and validate hostnames
-    for hostname in hostnames:
-        try:
-            ip = socket.gethostbyname(hostname)
-            logger.info(f"Resolved {hostname} to {ip}")
-            
-            # Additional IP validation
-            if validate_ip(ip):
-                logger.debug(f"IP {ip} is valid")
-            else:
-                logger.warning(f"Invalid IP for {hostname}")
-        
-        except socket.gaierror as e:
-            logger.error(f"Hostname resolution failed for {hostname}: {e}")
-
-    # Connection strategies
+def validate_network_connectivity():
+    # Comprehensive connection strategies
     connection_attempts = [
+        # Try multiple connection methods
         ('http://api-gateway:8197/state', 'Service Name'),
         ('http://localhost:8197/state', 'Localhost'),
         ('http://172.18.0.7:8197/state', 'Direct IP')
     ]
+
+    # Hostname resolution strategies
+    hostnames_to_check = [
+        'localhost', 
+        'api-gateway', 
+        '127.0.0.1'
+    ]
+
+    # Resolve hostnames
+    for hostname in hostnames_to_check:
+        try:
+            ip = socket.gethostbyname(hostname)
+            logger.info(f"Resolved {hostname} to {ip}")
+        except socket.gaierror as e:
+            logger.error(f"Hostname resolution failed for {hostname}: {e}")
 
     # Test API connections
     for url, method in connection_attempts:

@@ -2,6 +2,9 @@ networks:
   default:
     name: compse140_my_network
     driver: bridge
+    labels:
+      com.docker.compose.network: "compse140_my_network"
+      com.docker.compose.project: "compse140"
 
 services:
   service1-1:

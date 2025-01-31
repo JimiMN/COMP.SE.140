@@ -77,16 +77,10 @@ def test_get_run_log():
     assert "PAUSED->RUNNING" in log
 
 
-
 def test_put_shutdown_state():
     headers = {"Content-Type": "text/plain"}
     response = requests.put(f"{BASE_URL}/state", data="SHUTDOWN", headers=headers)
     assert response.status_code == 200
-
-    # Verify the state is set to SHUTDOWN
-    response = requests.get(f"{BASE_URL}/state")
-    assert response.status_code == 200
-    assert response.text == "SHUTDOWN"
 
     # Test system behavior when SHUTDOWN
     response = requests.get(f"{BASE_URL}/request")

@@ -1,39 +1,46 @@
 image: docker:latest
 services:
-  - docker:dind
+  - name: docker:24.0.5-dind  # Use specific version
+    alias: docker  # Important: Explicitly set alias
+    command: ["--tls=false"]  # Disable TLS
 
 variables:
-  DOCKER_HOST: tcp://docker:2375
+  # Use IP instead of hostname
+  DOCKER_HOST: tcp://127.0.0.1:2375
   DOCKER_TLS_CERTDIR: ""
-  DOCKER_NETWORK: compse140_my_network  # Explicitly define network
+  DOCKER_DRIVER: overlay2
 
 stages:
   - test
-  - build
-  - deploy
-
-before_script:
-  - apk add --no-cache docker-compose python3 py3-pip
 
 test:
   stage: test
   script:
-    - docker-compose up -d
-    - sleep 15  # Extended initialization time
+    # Network and DNS debugging
+    - apk add --no-cache bind-tools
+    - cat /etc/resolv.conf
+    - nslookup docker
+    - ip addr
     
-    # Detailed network and service diagnostics
-    - docker network ls
-    - docker-compose ps
+    # Docker network configuration
+    - docker network create compse140_my_network || true
+    
+    # Verbose Docker and Compose commands
+    - docker-compose config  # Validate compose file
+    - docker-compose up -d --force-recreate
+    
+    # Extended service initialization
+    - sleep 20
+    
+    # Network and service diagnostics
+    - docker ps
     - docker network inspect compse140_my_network
     
+    # Test execution
     - python3 -m venv venv
     - source venv/bin/activate
-    - pip install -r tests/requirements.txt pytest requests
-    
-    # Enhanced test running with network debugging
-    - |
-      PYTHONPATH=. pytest tests/ --cache-clear -v \
-        --log-cli-level=DEBUG \
-        --capture=no
+    - pip install -r tests/requirements.txt
+    - PYTHONPATH=. pytest tests/ -v
+  
   after_script:
     - docker-compose down

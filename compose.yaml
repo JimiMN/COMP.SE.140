@@ -10,7 +10,7 @@ services:
   service1-1:
     build:
       context: ./service1
-    image: JimiMN/service1:latest
+    image: jimimn/service1:latest
     depends_on:
       - service2
     networks:
@@ -19,7 +19,7 @@ services:
   service1-2:
     build:
       context: ./service1
-    image: JimiMN/service1:latest
+    image: jimimn/service1:latest
     depends_on:
       - service2
     networks:
@@ -28,7 +28,7 @@ services:
   service1-3:
     build:
       context: ./service1
-    image: JimiMN/service1:latest
+    image: jimimn/service1:latest
     depends_on:
       - service2
     networks:
@@ -37,7 +37,7 @@ services:
   service2:
     build:
       context: ./service2
-    image: JimiMN/service2:latest
+    image: jimimn/service2:latest
     ports:
       - "3000:3000"
     networks:
@@ -61,7 +61,7 @@ services:
   api-gateway:
     build:
       context: ./api_gateway
-    image: JimiMN/api-gateway:latest
+    image: jimimn/api-gateway:latest
     ports:
       - "8197:8197"
     depends_on:
